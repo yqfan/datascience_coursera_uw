@@ -1,0 +1,7 @@
+SELECT val from (
+    SELECT row, col, SUM(med_prod) as val FROM (
+        SELECT A.row_num as row, B.col_num as col, (A.value*B.value) as med_prod
+        FROM A, B
+        WHERE A.col_num = B.row_num )
+    GROUP BY row,col)
+WHERE row = 2 AND col = 3;

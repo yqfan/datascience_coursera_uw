@@ -1,0 +1,16 @@
+DROP VIEW freq_view;
+CREATE VIEW freq_view as
+    SELECT * FROM frequency 
+    UNION 
+    SELECT 'q' as docid, 'washington' as term, 1 as count
+    UNION 
+    SELECT 'q' as docid, 'taxes' as term, 1 as count
+    UNION 
+    SELECT 'q' as docid, 'treasury' as term, 1 as count;
+SELECT MAX(val) FROM (
+    SELECT SUM(med_prod) as val FROM (
+        SELECT v1.docid as docid1, v2.docid as docid2, v1.count*v2.count as med_prod
+        FROM freq_view v1, freq_view v2
+        WHERE v1.term = v2.term )
+    WHERE docid2 == 'q'
+    GROUP BY docid1 );

@@ -1,0 +1,7 @@
+SELECT val FROM (
+    SELECT docid1, docid2, SUM(med_prod) as val FROM (
+        SELECT f1.docid as docid1, f2.docid as docid2, (f1.count*f2.count) as med_prod
+        FROM frequency f1, frequency f2
+        WHERE f1.term = f2.term AND f1.docid <= f2.docid)
+    GROUP BY docid1, docid2)
+WHERE docid1 = '10080_txt_crude' AND docid2 = '17035_txt_earn';  
